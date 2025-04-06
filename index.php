@@ -3,6 +3,7 @@
 </header>
 
 <?php
-    require_once("vue/vue_connexion.php");
-    require_once("vue/vue_inscription.php");
+require_once("vue/vue_connexion.php");
+require_once("vue/vue_inscription.php");
+echo '<p style="color: red; font-weight: bold;">l`utilisateur Jean a changé son rôle en admin.';
 ?>
