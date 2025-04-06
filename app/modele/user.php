@@ -8,13 +8,16 @@ class user {
 
     public function register($username, $password) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $this->pdo->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
-        $stmt->execute(['username' => $username, 'password' => $hashedPassword]);
+        $stmt = $this->pdo->prepare("insert into users (username, password) values (?, ?)");
+        $stmt->bindValue(1, $username, PDO::PARAM_STR);
+        $stmt->bindValue(2, $hashedPassword, PDO::PARAM_STR);
+        $stmt->execute();
     }
 
     public function login($username, $password) {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username");
-        $stmt->execute(['username' => $username]);
+        $stmt = $this->pdo->prepare("select * from users where username = ?");
+        $stmt->bindValue(1, $username, PDO::PARAM_STR);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
@@ -24,8 +27,9 @@ class user {
     }
 
     public function isPasswordExpired($userId) {
-        $stmt = $this->pdo->prepare("SELECT last_password_change FROM users WHERE id = :id");
-        $stmt->execute(['id' => $userId]);
+        $stmt = $this->pdo->prepare("select last_password_change from users where id = ?");
+        $stmt->bindValue(1, $userId, PDO::PARAM_INT);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
