@@ -1,0 +1,4 @@
+PHP >= 7.4
+MySQL >= 5.7
+Apache2 ou Nginx (serveur web)
+phpMyAdmin (optionnel pour la gestion de la base de données)
